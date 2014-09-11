@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  advertiser_name: MyString
+  advertiser_address: MyString
+  advertiser_zipcode: MyString
+  advertiser_telephone_no: MyString
+  publisher_login_id: MyString
+  publisher_login_password: MyString
+  publisher_api_key: MyString
+  publisher_url: MyString
+  deleted_at: 2014-09-11 21:01:06
+
+two:
+  advertiser_name: MyString
+  advertiser_address: MyString
+  advertiser_zipcode: MyString
+  advertiser_telephone_no: MyString
+  publisher_login_id: MyString
+  publisher_login_password: MyString
+  publisher_api_key: MyString
+  publisher_url: MyString
+  deleted_at: 2014-09-11 21:01:06

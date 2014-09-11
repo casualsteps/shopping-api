@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  advertiser_id: 
+  product_code: MyString
+  product_name: MyString
+  product_url: MyString
+  image_url: MyString
+  price: 1
+  slug: MyString
+  deleted_at: 2014-09-11 20:57:15
+
+two:
+  advertiser_id: 
+  product_code: MyString
+  product_name: MyString
+  product_url: MyString
+  image_url: MyString
+  price: 1
+  slug: MyString
+  deleted_at: 2014-09-11 20:57:15
