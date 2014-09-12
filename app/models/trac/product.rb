@@ -16,6 +16,8 @@
 #
 
 class Trac::Product < ActiveRecord::Base
+  column_prefixed "product_", only: %w[code name url]
+
   belongs_to :advertiser
   has_and_belongs_to_many :categories
 

@@ -14,6 +14,8 @@
 #
 
 class Trac::Offer < ActiveRecord::Base
+  column_prefixed "offer_", only: %w[name description]
+
   belongs_to  :advertiser
   belongs_to  :product
   has_and_belongs_to_many :advertisers

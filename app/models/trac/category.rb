@@ -13,6 +13,7 @@
 #
 
 class Trac::Category < ActiveRecord::Base
+  column_prefixed "category_", only: %w[code name]
 
   belongs_to :advertiser
   belongs_to :parent_category, class_name: "Category"

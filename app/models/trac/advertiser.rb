@@ -17,7 +17,7 @@
 #
 
 class Trac::Advertiser < ActiveRecord::Base
-  column_prefix "advertiser_"
+  column_prefixed "advertiser_"
 
   has_many :categories
   has_and_belongs_to_many :offers
