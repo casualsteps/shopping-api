@@ -19,7 +19,15 @@ class Trac::Product < ActiveRecord::Base
   column_prefixed "product_", only: %w[code name url]
 
   belongs_to :advertiser
+  has_many :offers
   has_and_belongs_to_many :categories
 
+  scope :valid, ->{ where(deleted_at: nil) }
 
+
+  private
+
+  def related_models
+    %w[ Trac::CategoriesProduct ]
+  end
 end

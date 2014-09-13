@@ -21,4 +21,13 @@ class Trac::Advertiser < ActiveRecord::Base
 
   has_many :categories
   has_and_belongs_to_many :offers
+
+  scope :valid, ->{ where(deleted_at: nil) }
+
+
+  private
+
+  def related_models
+    %w[ Trac::AdvertisersOffer ]
+  end
 end

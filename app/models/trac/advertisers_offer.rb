@@ -11,5 +11,7 @@
 #
 
 class Trac::AdvertisersOffer < ActiveRecord::Base
+  belongs_to :advertiser
+  belongs_to :offer
 
 end

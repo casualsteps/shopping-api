@@ -20,4 +20,12 @@ class Trac::Category < ActiveRecord::Base
   has_many :children, class_name: "Category", foreign_key: "parent_category_id"
   has_and_belongs_to_many :products
 
+  scope :valid, ->{ where(deleted_at: nil) }
+
+
+  private
+
+  def related_models
+    %w[ Trac::CategoriesProduct ]
+  end
 end

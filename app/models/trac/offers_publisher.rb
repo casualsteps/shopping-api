@@ -11,5 +11,7 @@
 #
 
 class Trac::OffersPublisher < ActiveRecord::Base
+  belongs_to :offer
+  belongs_to :publisher
 
 end
