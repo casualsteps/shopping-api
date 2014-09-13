@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20140911115715) do
     t.string   "offer_description"
     t.string   "url"
     t.datetime "deleted_at"
+    t.date     "expires_on"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -74,6 +74,7 @@ class CreateTracTables < ActiveRecord::Migration
       t.string    :offer_description
       t.string    :url
       t.datetime  :deleted_at
+      t.date      :expires_on
       
       t.timestamps
     end

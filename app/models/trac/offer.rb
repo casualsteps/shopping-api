@@ -9,6 +9,7 @@
 #  offer_description :string(255)
 #  url               :string(255)
 #  deleted_at        :datetime
+#  expires_on        :date
 #  created_at        :datetime
 #  updated_at        :datetime
 #
