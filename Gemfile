@@ -19,6 +19,10 @@ group :development do
   gem "annotate", ">=2.6.3" # Annotate models
 end
 
+group :development, :test do
+  gem "rspec-rails"#, ">= 3.1.0"
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
