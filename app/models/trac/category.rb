@@ -25,7 +25,7 @@ class Trac::Category < ActiveRecord::Base
 
   private
 
-  def related_models
+  def dependent_models
     %w[ Trac::CategoriesProduct ]
   end
 end

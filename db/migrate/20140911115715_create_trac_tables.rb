@@ -72,7 +72,7 @@ class CreateTracTables < ActiveRecord::Migration
       
       t.string    :offer_name
       t.string    :offer_description
-      t.string    :url
+      t.string    :pixel
       t.datetime  :deleted_at
       t.date      :expires_on
       
@@ -88,15 +88,25 @@ class CreateTracTables < ActiveRecord::Migration
 
       t.timestamps
     end
-    
-    create_table  :trac_advertisers_offers  do |t|
-      t.belongs_to  :advertiser,  index: true
+
+    create_table :trac_offer_tracking_links do |t|
       t.belongs_to  :offer,       index: true
-      
-      t.datetime  :deleted_at
+      t.belongs_to  :publisher,    index: true
+
+      t.string      :offer_url
+      t.datetime    :deleted_at
 
       t.timestamps
     end
+    
+    # create_table  :trac_advertisers_offers  do |t|
+    #   t.belongs_to  :advertiser,  index: true
+    #   t.belongs_to  :offer,       index: true
+    #
+    #   t.datetime  :deleted_at
+    #
+    #   t.timestamps
+    # end
 
   end
 end

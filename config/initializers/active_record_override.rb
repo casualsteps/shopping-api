@@ -25,10 +25,10 @@ class ActiveRecord::Base
     now = Time.now
     transaction do
       update! deleted_at: now
-      related_models.each do |class_name|
+      dependent_models.each do |class_name|
         # eg. if self = Category and class_name = Trac::CategoriesProduct, Trac::CategoriesProduct.where(category_id: id)...
         class_name.constantize.where("#{self.class.to_s.demodulize.downcase}_id".to_sym => id).update_all(deleted_at: now)
-      end if defined? related_models
+      end if defined? dependent_models
     end
     self
   end
@@ -38,11 +38,11 @@ class ActiveRecord::Base
 
     transaction do
       update! deleted_at: nil
-      related_models.each do |class_name|
+      dependent_models.each do |class_name|
         # eg. if self = Category and class_name = Trac::CategoriesProduct, Trac::CategoriesProduct.where(category_id: id)...
         # REVIEW is it ok to revive all the relations?
         class_name.constantize.where("#{self.class.to_s.demodulize.downcase}_id".to_sym => id).update_all(deleted_at: nil)
-      end if defined? related_models
+      end if defined? dependent_models
     end
     self
 

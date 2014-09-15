@@ -20,14 +20,15 @@ class Trac::Advertiser < ActiveRecord::Base
   column_prefixed "advertiser_"
 
   has_many :categories
-  has_and_belongs_to_many :offers
+  has_many :products
+  has_many :offers
 
   scope :valid, ->{ where(deleted_at: nil) }
 
 
   private
 
-  def related_models
-    %w[ Trac::AdvertisersOffer ]
+  def dependent_models
+    %w[ Trac::Offer Trac::Product Trac::Category ]
   end
 end

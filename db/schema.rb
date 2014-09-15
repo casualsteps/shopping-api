@@ -30,17 +30,6 @@ ActiveRecord::Schema.define(version: 20140911115715) do
     t.datetime "updated_at"
   end
 
-  create_table "trac_advertisers_offers", force: true do |t|
-    t.integer  "advertiser_id"
-    t.integer  "offer_id"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "trac_advertisers_offers", ["advertiser_id"], name: "index_trac_advertisers_offers_on_advertiser_id", using: :btree
-  add_index "trac_advertisers_offers", ["offer_id"], name: "index_trac_advertisers_offers_on_offer_id", using: :btree
-
   create_table "trac_categories", force: true do |t|
     t.integer  "advertiser_id"
     t.integer  "parent_category_id"
@@ -67,12 +56,24 @@ ActiveRecord::Schema.define(version: 20140911115715) do
   add_index "trac_categories_products", ["category_id"], name: "index_trac_categories_products_on_category_id", using: :btree
   add_index "trac_categories_products", ["product_id"], name: "index_trac_categories_products_on_product_id", using: :btree
 
+  create_table "trac_offer_tracking_links", force: true do |t|
+    t.integer  "offer_id"
+    t.integer  "publisher_id"
+    t.string   "offer_url"
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trac_offer_tracking_links", ["offer_id"], name: "index_trac_offer_tracking_links_on_offer_id", using: :btree
+  add_index "trac_offer_tracking_links", ["publisher_id"], name: "index_trac_offer_tracking_links_on_publisher_id", using: :btree
+
   create_table "trac_offers", force: true do |t|
     t.integer  "advertiser_id"
     t.integer  "product_id"
     t.string   "offer_name"
     t.string   "offer_description"
-    t.string   "url"
+    t.string   "pixel"
     t.datetime "deleted_at"
     t.date     "expires_on"
     t.datetime "created_at"

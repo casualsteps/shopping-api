@@ -19,6 +19,7 @@
 class Trac::Publisher < ActiveRecord::Base
   column_prefixed "publisher_"
 
+  has_many :offer_tracking_links
   has_and_belongs_to_many :offers
 
   scope :valid, ->{ where(deleted_at: nil) }
@@ -26,7 +27,7 @@ class Trac::Publisher < ActiveRecord::Base
 
   private
 
-  def related_models
-    %w[ Trac::OffersPublisher ]
+  def dependent_models
+    %w[ Trac::OffersPublisher Trac::OfferTrackingLink ]
   end
 end
