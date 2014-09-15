@@ -25,6 +25,11 @@ class Trac::Offer < ActiveRecord::Base
   scope :valid, ->{ where(deleted_at: nil) }
 
 
+  def self.expire
+    where("expires_on <= ? AND deleted_at IS NULL", Date.today).find_each { |mortal| mortal.delete }
+  end
+
+
   private
 
   def dependent_models

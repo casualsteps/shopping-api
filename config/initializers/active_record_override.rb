@@ -18,7 +18,7 @@ class ActiveRecord::Base
     end
   end
 
-  
+
   def delete
     return self unless deleted_at.nil?
 
@@ -33,6 +33,10 @@ class ActiveRecord::Base
     self
   end
 
+  def deleted?
+    !deleted_at.nil?
+  end
+
   def revive
     return self if deleted_at.nil?
 
@@ -45,6 +49,5 @@ class ActiveRecord::Base
       end if defined? dependent_models
     end
     self
-
   end
 end
