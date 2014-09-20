@@ -9,6 +9,8 @@ gem "pg"              # DBMS
 
 gem "rails-api", ">= 0.2.1"
 
+gem "kaminari", ">= 0.16.1"
+
 group :development do
   # prettier error page
   gem "better_errors"

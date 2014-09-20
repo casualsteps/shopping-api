@@ -45,6 +45,9 @@ GEM
     hike (1.2.3)
     i18n (0.6.11)
     json (1.8.1)
+    kaminari (0.16.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.9.2)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -77,12 +80,12 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
-    rspec-core (3.1.2)
+    rspec-core (3.1.4)
       rspec-support (~> 3.1.0)
-    rspec-expectations (3.1.0)
+    rspec-expectations (3.1.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.1.0)
-    rspec-mocks (3.1.0)
+    rspec-mocks (3.1.1)
       rspec-support (~> 3.1.0)
     rspec-rails (3.1.0)
       actionpack (>= 3.0)
@@ -123,6 +126,7 @@ DEPENDENCIES
   annotate (>= 2.6.3)
   better_errors
   binding_of_caller
+  kaminari (>= 0.16.1)
   pg
   rails (= 4.1.4)
   rails-api (>= 0.2.1)
