@@ -19,6 +19,8 @@
 class Trac::Advertiser < ActiveRecord::Base
   column_prefixed "advertiser_"
 
+  include TokenGeneratable
+
   has_many :categories
   has_many :products
   has_many :offers

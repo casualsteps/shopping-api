@@ -19,6 +19,8 @@
 class Trac::Publisher < ActiveRecord::Base
   column_prefixed "publisher_"
 
+  include TokenGeneratable
+
   has_many :offer_tracking_links
   has_and_belongs_to_many :offers
 

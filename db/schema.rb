@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140911115715) do
     t.string   "advertiser_telephone_no",   limit: 14
     t.string   "advertiser_login_id"
     t.string   "advertiser_login_password"
-    t.string   "advertiser_api_key"
+    t.string   "advertiser_api_key",        limit: 32
     t.string   "advertiser_url"
     t.datetime "deleted_at"
     t.datetime "created_at"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20140911115715) do
     t.string   "publisher_telephone_no",   limit: 14
     t.string   "publisher_login_id"
     t.string   "publisher_login_password"
-    t.string   "publisher_api_key"
+    t.string   "publisher_api_key",        limit: 32
     t.string   "publisher_url"
     t.datetime "deleted_at"
     t.datetime "created_at"
