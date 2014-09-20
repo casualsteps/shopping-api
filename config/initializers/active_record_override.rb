@@ -26,7 +26,7 @@ class ActiveRecord::Base
     transaction do
       update! deleted_at: now
       dependent_models.each do |class_name|
-        # eg. if self = Category and class_name = Trac::CategoriesProduct, Trac::CategoriesProduct.where(category_id: id)...
+        # eg. if self = Category & class_name = Trac::CategoriesProduct ==> Trac::CategoriesProduct.where(category_id: id)...
         class_name.constantize.where("#{self.class.to_s.demodulize.downcase}_id".to_sym => id).update_all(deleted_at: now)
       end if defined? dependent_models
     end

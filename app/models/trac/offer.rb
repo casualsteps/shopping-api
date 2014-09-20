@@ -21,6 +21,7 @@ class Trac::Offer < ActiveRecord::Base
   belongs_to :product
   has_many   :offer_tracking_links
   has_and_belongs_to_many :publishers
+  has_many   :offers_publishers
 
   scope :valid, ->{ where(deleted_at: nil) }
 
