@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate
+  before_action :authenticate!
   before_action :set_resource, only: %i[show update destroy]
 
   attr_accessor :current_advertiser, :current_publisher
@@ -28,15 +28,20 @@ class ApplicationController < ActionController::API
 
   private
 
-  def authenticate
+  def authenticate!
     api_key = params[:api_key]
-    return (self.current_advertiser = self.current_publisher = nil) if api_key.nil?
 
-    self.current_advertiser = Trac::Advertiser.find_by(advertiser_api_key: api_key)
-    logger.info "Advertiser [#{current_advertiser.name}] logged in." if current_advertiser
+    if api_key.nil?
+      self.current_advertiser = self.current_publisher = nil
+    else
+      self.current_advertiser = Trac::Advertiser.find_by(advertiser_api_key: api_key)
+      logger.info "Advertiser [#{current_advertiser.name}] logged in." if current_advertiser
 
-    self.current_publisher = current_advertiser.nil? ? Trac::Publisher.find_by(publisher_api_key: api_key) : nil
-    logger.info "Publisher [#{current_publisher.name}] logged in." if current_publisher
+      self.current_publisher = current_advertiser.nil? ? Trac::Publisher.find_by(publisher_api_key: api_key) : nil
+      logger.info "Publisher [#{current_publisher.name}] logged in." if current_publisher
+    end
+
+    render status: :unauthorized, json: { message: "Wrong API token!" } if current_advertiser.nil? && current_publisher.nil?
   end
 
   def advertiser_signed_in?
