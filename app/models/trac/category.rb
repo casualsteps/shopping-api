@@ -2,14 +2,15 @@
 #
 # Table name: trac_categories
 #
-#  id                 :integer          not null, primary key
-#  advertiser_id      :integer
-#  parent_category_id :integer
-#  category_code      :string(255)
-#  category_name      :string(255)
-#  deleted_at         :datetime
-#  created_at         :datetime
-#  updated_at         :datetime
+#  id                   :integer          not null, primary key
+#  advertiser_id        :integer
+#  parent_category_id   :integer
+#  parent_category_code :string(255)
+#  category_code        :string(255)
+#  category_name        :string(255)
+#  deleted_at           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #
 
 class Trac::Category < ActiveRecord::Base

@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140911115715) do
   create_table "trac_categories", force: true do |t|
     t.integer  "advertiser_id"
     t.integer  "parent_category_id"
+    t.string   "parent_category_code"
     t.string   "category_code"
     t.string   "category_name"
     t.datetime "deleted_at"
@@ -43,7 +44,6 @@ ActiveRecord::Schema.define(version: 20140911115715) do
   add_index "trac_categories", ["advertiser_id"], name: "index_trac_categories_on_advertiser_id", using: :btree
   add_index "trac_categories", ["category_code"], name: "index_trac_categories_on_category_code", unique: true, using: :btree
   add_index "trac_categories", ["category_name"], name: "index_trac_categories_on_category_name", using: :btree
-  add_index "trac_categories", ["parent_category_id"], name: "index_trac_categories_on_parent_category_id", using: :btree
 
   create_table "trac_categories_products", force: true do |t|
     t.integer  "product_id"
@@ -53,13 +53,12 @@ ActiveRecord::Schema.define(version: 20140911115715) do
     t.datetime "updated_at"
   end
 
-  add_index "trac_categories_products", ["category_id"], name: "index_trac_categories_products_on_category_id", using: :btree
   add_index "trac_categories_products", ["product_id"], name: "index_trac_categories_products_on_product_id", using: :btree
 
   create_table "trac_offer_tracking_links", force: true do |t|
     t.integer  "offer_id"
     t.integer  "publisher_id"
-    t.string   "offer_url"
+    t.string   "tracking_link"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -71,11 +70,13 @@ ActiveRecord::Schema.define(version: 20140911115715) do
   create_table "trac_offers", force: true do |t|
     t.integer  "advertiser_id"
     t.integer  "product_id"
-    t.string   "offer_name"
+    t.string   "offer_name",        null: false
     t.string   "offer_description"
     t.string   "pixel"
+    t.string   "preview_url"
+    t.string   "landing_url"
     t.datetime "deleted_at"
-    t.date     "expires_on"
+    t.date     "expires_on",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

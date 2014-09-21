@@ -5,11 +5,13 @@
 #  id                :integer          not null, primary key
 #  advertiser_id     :integer
 #  product_id        :integer
-#  offer_name        :string(255)
+#  offer_name        :string(255)      not null
 #  offer_description :string(255)
 #  pixel             :string(255)
+#  preview_url       :string(255)
+#  landing_url       :string(255)
 #  deleted_at        :datetime
-#  expires_on        :date
+#  expires_on        :date             not null
 #  created_at        :datetime
 #  updated_at        :datetime
 #
@@ -25,6 +27,8 @@ class Trac::Offer < ActiveRecord::Base
 
   scope :valid, ->{ where(deleted_at: nil) }
 
+  validates :offer_name, presence: true
+  validates :expires_on, presence: true
 
   def self.expire
     where("expires_on <= ? AND deleted_at IS NULL", Date.today).find_each { |mortal| mortal.delete }

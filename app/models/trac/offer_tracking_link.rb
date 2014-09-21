@@ -2,13 +2,13 @@
 #
 # Table name: trac_offer_tracking_links
 #
-#  id           :integer          not null, primary key
-#  offer_id     :integer
-#  publisher_id :integer
-#  offer_url    :string(255)
-#  deleted_at   :datetime
-#  created_at   :datetime
-#  updated_at   :datetime
+#  id            :integer          not null, primary key
+#  offer_id      :integer
+#  publisher_id  :integer
+#  tracking_link :string(255)
+#  deleted_at    :datetime
+#  created_at    :datetime
+#  updated_at    :datetime
 #
 
 class Trac::OfferTrackingLink < ActiveRecord::Base

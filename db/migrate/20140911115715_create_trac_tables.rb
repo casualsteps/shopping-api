@@ -4,7 +4,9 @@ class CreateTracTables < ActiveRecord::Migration
       t.belongs_to :advertiser, index: true
 
       t.string :product_code
+      t.index  :product_code, unique: true
       t.string :product_name
+      t.index  :product_name
       t.string :product_url
       t.string :image_url
       t.integer :price
@@ -13,12 +15,10 @@ class CreateTracTables < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :trac_products, :product_code, unique: true
-    add_index :trac_products, :product_name
 
     create_table :trac_categories_products do |t|
       t.references  :product,  index: true
-      t.references  :category, index: true
+      t.references  :category
 
       t.datetime :deleted_at
 
@@ -27,16 +27,17 @@ class CreateTracTables < ActiveRecord::Migration
 
     create_table :trac_categories do |t|
       t.belongs_to  :advertiser,  index: true
-      t.belongs_to  :parent_category, index: true
+      t.belongs_to  :parent_category
+      t.string      :parent_category_code
 
       t.string   :category_code
+      t.index    :category_code, unique: true
       t.string   :category_name
+      t.index    :category_name
       t.datetime :deleted_at
 
       t.timestamps
     end
-    add_index :trac_categories, :category_code, unique: true
-    add_index :trac_categories, :category_name
 
     create_table :trac_advertisers do |t|
       t.string :advertiser_name
@@ -70,15 +71,18 @@ class CreateTracTables < ActiveRecord::Migration
       t.belongs_to  :advertiser,  index: true
       t.belongs_to  :product,     index: true
       
-      t.string    :offer_name
+      t.string    :offer_name,       null: false
+      t.index     :offer_name
       t.string    :offer_description
       t.string    :pixel
+      t.string    :preview_url
+      t.string    :landing_url
+
       t.datetime  :deleted_at
-      t.date      :expires_on
-      
+      t.date      :expires_on,       null: false
+
       t.timestamps
     end
-    add_index :trac_offers, :offer_name
 
     create_table :trac_offers_publishers   do |t|
       t.belongs_to  :publisher,   index: true
@@ -91,9 +95,10 @@ class CreateTracTables < ActiveRecord::Migration
 
     create_table :trac_offer_tracking_links do |t|
       t.belongs_to  :offer,       index: true
-      t.belongs_to  :publisher,    index: true
+      t.belongs_to  :publisher,   index: true
 
-      t.string      :offer_url
+      t.string      :tracking_link
+
       t.datetime    :deleted_at
 
       t.timestamps
