@@ -7,7 +7,9 @@ module TokenGeneratable
   protected
 
   def generate_token
-    self.api_key = token
+    begin
+      self.api_key = token
+    end while self.class.exists?("#{self.class.to_s.demodulize.downcase}_api_key".to_sym => api_key)
   end
   alias refresh_token generate_token
 

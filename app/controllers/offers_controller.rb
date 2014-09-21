@@ -13,4 +13,8 @@ class OffersController < ApplicationController
     end
   end
 
+  def offer_params
+    params.permit *%i[offer_name offer_description preview_url landing_url product_id expires_on]
+  end
+
 end

@@ -20,16 +20,41 @@ class ApplicationController < ActionController::API
     render json: { model: resources, message: message }
   end
 
-  # GET /api/{plural_resource_name}/1
+  # GET /{plural_resource_name}/:id
   def show
     render json: resource
   end
 
+  # POST /api/{plural_resource_name}
+  def create
+    set_resource(resource_class.new(resource_params))
+
+    if resource.save
+      render json: { model: resource, message: "OK" }, status: :created
+    else
+      render json: resource.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /{plural_resource_name}/:id
+  def update
+    if resource.update(resource_params)
+      render json: { model: resource, message: "OK" }
+    else
+      render json: resource.errors, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /{plural_resource_name}/:id
+  def destroy
+    get_resource.destroy
+    head :no_content
+  end
 
   private
 
   def authenticate!
-    api_key = params[:api_key]
+    api_key = request.headers["x-access-token"] || params[:api_key]
 
     if api_key.nil?
       self.current_advertiser = self.current_publisher = nil
