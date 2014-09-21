@@ -42,6 +42,11 @@ GEM
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    factory_girl (4.4.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.4.1)
+      factory_girl (~> 4.4.0)
+      railties (>= 3.0.0)
     hike (1.2.3)
     i18n (0.6.11)
     json (1.8.1)
@@ -126,6 +131,7 @@ DEPENDENCIES
   annotate (>= 2.6.3)
   better_errors
   binding_of_caller
+  factory_girl_rails
   kaminari (>= 0.16.1)
   pg
   rails (= 4.1.4)

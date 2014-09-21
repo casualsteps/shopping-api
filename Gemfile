@@ -21,8 +21,9 @@ group :development do
   gem "annotate", ">=2.6.3" # Annotate models
 end
 
-group :development, :test do
+group :test do
   gem "rspec-rails"#, ">= 3.1.0"
+  gem "factory_girl_rails"
 end
 
 # To use ActiveModel has_secure_password

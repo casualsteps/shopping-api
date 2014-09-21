@@ -2,10 +2,11 @@ require "rails_helper"
 
 RSpec.describe Trac::Offer do
   describe "#expire" do
+    let!(:expired_one) { create :offer, expires_on: Date.today - 1.day }
+    let!(:not_expired_one) { create :offer, expires_on: Date.today + 1.day }
+
     it "expires correctly" do
-      expired_one = Trac::Offer.create! expires_on: Date.today - 1.day
-      not_expired_one = Trac::Offer.create! expires_on: Date.today + 1.day
-      Trac::Offer.expire
+      expect { Trac::Offer.expire }.to change { Trac::Offer.valid.count }.by(-1)
 
       expect(Trac::Offer.valid).to eq [not_expired_one]
       expect(not_expired_one.reload.deleted?).to be false
