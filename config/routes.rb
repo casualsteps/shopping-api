@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   resources :offers, except: %i[new show edit destroy] do
@@ -9,4 +11,6 @@ Rails.application.routes.draw do
 
   resources :advertisers, only: :show
   resources :publishers, only: :show
+
+  mount Sidekiq::Web => '/sidekiq'
 end
