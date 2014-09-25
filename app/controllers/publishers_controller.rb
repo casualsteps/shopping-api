@@ -6,7 +6,7 @@ class PublishersController < ApplicationController
     offer.publishers << publisher
 
     #TODO genenate track link
-    render json: { message: "OK"}
+    render json: { message: "OK" }
   end
 
   private
