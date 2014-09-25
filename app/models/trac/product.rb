@@ -18,11 +18,14 @@
 class Trac::Product < ActiveRecord::Base
   column_prefixed "product_", only: %w[code name url]
 
+  default_scope { where(deleted_at: nil) }
+
   belongs_to :advertiser
   has_many :offers
   has_and_belongs_to_many :categories
 
-  scope :valid, ->{ where(deleted_at: nil) }
+  validates :product_code, uniqueness: true, allow_nil: true
+  validates :advertiser_id, presence: true
 
 
   private

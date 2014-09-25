@@ -6,8 +6,8 @@ Rails.application.routes.draw do
     resource :publisher, only: :create
   end
 
-  resources :categories, except: %i[new show edit]
-  resources :products, except: %i[new show edit]
+  resources :categories, except: %i[new edit]
+  resources :products, except: %i[new edit]
 
   resources :advertisers, only: :show
   resources :publishers, only: :show
