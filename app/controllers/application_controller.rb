@@ -1,12 +1,18 @@
 class ApplicationController < ActionController::API
-  before_action :authenticate!
-  before_action :set_resource, only: %i[show update destroy]
+  include Pundit
 
   attr_accessor :current_advertiser, :current_publisher
 
+  before_action :authenticate!
+  before_action :set_resource, only: %i[show update destroy]
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   # GET /{plural_resource_name}/
   def index
+    authorize resource_class_name.to_sym, :index?
+
     message = "ok"
     page = Integer(params[:page] || 1)
     page_size = Integer(params[:limit] || 25)
@@ -23,35 +29,37 @@ class ApplicationController < ActionController::API
 
   # GET /{plural_resource_name}/:id
   def show
-    render json: resource
+    authorize resource
+    render json: { model: filtered_resource, message: "OK" }, status: :ok
   end
 
   # POST /api/{plural_resource_name}
   def create
-    return unless validate_params(resource_params_mandatory)
-
     set_resource(resource_class.new(resource_params))
+    authorize resource, :update?
 
-    if resource.save
-      render json: { model: resource, message: "OK" }, status: :created
+    if resource.valid? && resource.save
+      render json: { model: filtered_resource, message: "OK" }, status: :created
     else
-      render json: resource.errors, status: :unprocessable_entity
+      render json: { message: resource.errors.full_messages.join(", ") }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /{plural_resource_name}/:id
   def update
+    authorize resource
     if resource.update(resource_params)
-      render json: { model: resource, message: "OK" }
+      render json: { model: filtered_resource, message: "OK" }
     else
-      render json: resource.errors, status: :unprocessable_entity
+      render json: resource.errors.full_messages.join(", "), status: :unprocessable_entity
     end
   end
 
   # DELETE /{plural_resource_name}/:id
   def destroy
-    get_resource.destroy
-    head :no_content
+    authorize resource, :update?
+    resource.delete
+    render status: :no_content, json: { message: "OK" }
   end
 
   private
@@ -86,7 +94,7 @@ class ApplicationController < ActionController::API
   # Returns the resource from the created instance variable
   # @return [Object]
   def resource
-    instance_variable_get("@#{resource_name}")
+    instance_variable_get(:"@#{resource_name}")
   end
 
   # Returns the allowed parameters for searching
@@ -100,7 +108,11 @@ class ApplicationController < ActionController::API
   # The resource class based on the controller
   # @return [Class]
   def resource_class
-    @resource_class ||= "Trac::#{resource_name.classify}".constantize
+    @resource_class ||= resource_class_name.constantize
+  end
+
+  def resource_class_name
+    "Trac::#{resource_name.classify}"
   end
 
   # The singular name for the resource class based on the controller
@@ -115,28 +127,32 @@ class ApplicationController < ActionController::API
   # the method "#{resource_name}_params" to limit permitted
   # parameters for the individual model.
   def resource_params
-    @resource_params ||= self.send("#{resource_name}_params")
-  end
-
-  # Returns parameters required for index
-  def resource_params_mandatory
-    self.send("#{resource_name}_params_mandatory") || {}
+    @resource_params ||= send(:"#{resource_name}_params")
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_resource(resource_variable = nil)
     resource_variable ||= resource_class.find(params[:id])
-    instance_variable_set("@#{resource_name}", resource_variable)
+    instance_variable_set(:"@#{resource_name}", resource_variable)
   end
 
-  # Checks if the param has all the required paramters
-  def validate_params(params_mandatory)
-    params_mandatory.each do |p|
-      next if params[p].present?
+  def filtered_resource
+    resource.attributes.except *%w[
+      advertiser_api_key advertiser_login_password advertiser_api_key
+      publisher_login_id publisher_login_password publisher_api_key
+      deleted_at updated_at
+    ]
+  end
 
-      render status: :bad_request, json: { message: "Mandatory parameter absent: #{p}" }
-      return false
-    end
-    true
+  def pundit_user
+    current_advertiser || current_publisher
+  end
+
+  def user_not_authorized
+    render status: :unauthorized, json: { message: "Illegal API access!" }
+  end
+
+  def record_not_found
+    render status: :not_found, json: { meesage: "Record not found!" }
   end
 end

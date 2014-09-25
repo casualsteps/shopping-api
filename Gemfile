@@ -9,6 +9,8 @@ gem "pg"              # DBMS
 
 gem "rails-api", ">= 0.2.1"
 
+gem "pundit"
+
 gem "sidekiq", ">= 3.2.5"
 gem 'sinatra', '>= 1.3.0', require: nil
 gem "rest-client", ">= 1.7.2"
