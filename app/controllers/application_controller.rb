@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
 
   attr_accessor :current_advertiser, :current_publisher
 
+
   # GET /{plural_resource_name}/
   def index
     message = "ok"
@@ -53,8 +54,11 @@ class ApplicationController < ActionController::API
 
   private
 
+  # Authenticates user via api key
+  # The api key should be handed by request header "x-access-token" or get/post parameter "api_key"
+  # if the authentication fails, renders error message
   def authenticate!
-    api_key = request.headers["x-access-token"] || params[:api_key]
+    api_key = request.headers["x-access-token"] || params.delete(:api_key)
 
     if api_key.nil?
       self.current_advertiser = self.current_publisher = nil
