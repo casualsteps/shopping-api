@@ -28,6 +28,8 @@ class ApplicationController < ActionController::API
 
   # POST /api/{plural_resource_name}
   def create
+    return unless validate_params(resource_params_mandatory)
+
     set_resource(resource_class.new(resource_params))
 
     if resource.save
@@ -116,9 +118,25 @@ class ApplicationController < ActionController::API
     @resource_params ||= self.send("#{resource_name}_params")
   end
 
+  # Returns parameters required for index
+  def resource_params_mandatory
+    self.send("#{resource_name}_params_mandatory") || {}
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_resource(resource_variable = nil)
     resource_variable ||= resource_class.find(params[:id])
     instance_variable_set("@#{resource_name}", resource_variable)
+  end
+
+  # Checks if the param has all the required paramters
+  def validate_params(params_mandatory)
+    params_mandatory.each do |p|
+      next if params[p].present?
+
+      render status: :bad_request, json: { message: "Mandatory parameter absent: #{p}" }
+      return false
+    end
+    true
   end
 end
