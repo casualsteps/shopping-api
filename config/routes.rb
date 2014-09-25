@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  resources :offers, except: %i[new show edit destroy] do
+  resources :offers, except: %i[new show edit] do
     resource :publisher, only: :create
   end
 

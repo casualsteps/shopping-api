@@ -10,7 +10,8 @@ class JobBase
 
   protected
 
-  def request(query)
+  def request(params)
+    query = URI.unescape(params.to_query "data")
     request_url = base_url + "NetworkToken=#{network_token}&NetworkId=#{network_id}&#{query}"
     logger.info "Calling... #{request_url}"
 

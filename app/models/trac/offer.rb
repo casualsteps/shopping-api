@@ -19,13 +19,13 @@
 class Trac::Offer < ActiveRecord::Base
   column_prefixed "offer_", only: %w[name description]
 
+  default_scope { where(deleted_at: nil) }
+
   belongs_to :advertiser
   belongs_to :product
   has_many   :offer_tracking_links
   has_and_belongs_to_many :publishers
   has_many   :offers_publishers
-
-  scope :valid, ->{ where(deleted_at: nil) }
 
   validates :offer_name, presence: true
   validates :expires_on, presence: true

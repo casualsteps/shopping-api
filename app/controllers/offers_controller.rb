@@ -27,14 +27,9 @@ class OffersController < ApplicationController
     end
   end
 
-  # Returns parameter white list for #index
+  # Returns parameter white list for #create
   def offer_params
     params[:advertiser_id] = current_advertiser.id
     params.permit *%i[advertiser_id offer_name offer_description preview_url landing_url product_id expires_on]
-  end
-
-  # Returns parameters required for #index
-  def offer_params_mandatory
-    %i[offer_name expires_on]
   end
 end

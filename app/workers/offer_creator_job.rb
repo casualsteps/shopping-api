@@ -2,8 +2,7 @@ require "uri"
 
 class OfferCreatorJob < JobBase
   def perform(params, offer_id)
-    query = URI.unescape(params.to_query "data")
-    data = request(query)
+    data = request(params)
     return nil if data.nil?
 
     # if (has_offer_id = response[:data]).nil?
