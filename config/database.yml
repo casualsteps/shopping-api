@@ -24,3 +24,5 @@ test:
 production:
   <<: *default
   database: shopping_api_production
+  username: webadm
+  password:
