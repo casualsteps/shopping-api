@@ -5,8 +5,9 @@ class PublishersController < ApplicationController
     publisher = Trac::Publisher.find(params[:id])
     offer.publishers << publisher
 
-    #TODO genenate track link
     render json: { message: "OK" }
+
+    TrackingLinkGenerator.perform_async({offer_id: offer.id})
   end
 
   private
