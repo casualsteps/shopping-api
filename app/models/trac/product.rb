@@ -25,7 +25,7 @@ class Trac::Product < ActiveRecord::Base
   has_and_belongs_to_many :categories
 
   validates :product_code, uniqueness: true, allow_nil: true
-  validates :advertiser_id, presence: true
+  # validates :advertiser_id, presence: true
 
 
   private
