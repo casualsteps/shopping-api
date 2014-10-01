@@ -11,7 +11,19 @@ class OffersController < ApplicationController
     rest_params[:description] = rest_params.delete(:offer_description)
     rest_params[:expiration_date] = rest_params.delete(:expires_on)
 
-    OfferCreatorJob.perform_async rest_params
+    OfferCreator.perform_async rest_params
+  end
+
+  def update
+    super
+    return if @offer.nil?
+
+    rest_params = params.extract!(*%i[id offer_name offer_description preview_url expires_on])
+    rest_params[:name] = rest_params.delete(:offer_name)
+    rest_params[:description] = rest_params.delete(:offer_description)
+    rest_params[:expiration_date] = rest_params.delete(:expires_on)
+
+    OfferModifier.perform_async rest_params
   end
 
   private

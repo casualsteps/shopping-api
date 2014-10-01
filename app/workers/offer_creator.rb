@@ -1,9 +1,9 @@
 require "uri"
 
-class OfferCreatorJob < JobBase
-  def perform(params, offer_id)
-    data = request(params)
-    return nil if data.nil?
+class OfferCreator < JobBase
+  def perform(params)
+    data = request_has_offer(params)
+    # return nil if data.nil?
 
     # if (has_offer_id = response[:data]).nil?
     #   logger.error "Response data was empty! (request query: #{query}"
