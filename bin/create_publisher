@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+APP_PATH = File.expand_path('../../config/application',  __FILE__)
+require_relative '../config/boot'
+require APP_PATH
+Rails.application.require_environment!
+
+if ARGV.empty?
+  puts "Usage: create_publisher user_name [login_id] [password]"
+else
+  user = Trac::Publisher.new
+  user.name = ARGV[0]
+  user.login_id = ARGV[1] if ARGV[1].present?
+  user.login_password = ARGV[2] if ARGV[2].present?
+
+  if user.save
+    puts "New publisher '#{user.name}' was created!"
+    puts "Here's api_key: #{user.api_key}"
+    puts user.inspect
+  else
+    puts "Failed to create new publisher..:("
+  end
+end
