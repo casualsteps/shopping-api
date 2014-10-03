@@ -10,9 +10,12 @@ class JobBase
 
   protected
 
-  def request_has_offer(params, additional_params = nil)
-    query = URI.unescape(params.to_query "data")
-    query << "&#{additional_params.to_query(nil)}" unless additional_params.nil?
+  def request_has_offer(data_params, additional_params = nil)
+    query = data_params.blank? ? "" : URI.unescape(data_params.to_query "data")
+    unless additional_params.nil?
+      query << "&" unless query.blank?
+      query << additional_params.to_query(nil)
+    end
     request_url = base_url + "NetworkToken=#{network_token}&NetworkId=#{network_id}&#{query}&return_object=true"
 
     logger.info "Calling... #{request_url}"

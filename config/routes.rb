@@ -3,7 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   resources :offers, except: %i[new show edit] do
-    resource :publisher, only: :create
+    resources :publishers, only: :update
   end
 
   resources :categories, except: %i[new edit]
