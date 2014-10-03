@@ -1,17 +1,17 @@
 require "uri"
 
 class OfferCreator < JobBase
-  def perform(params)
-    data = request_has_offer(params)
-    # return nil if data.nil?
+  def perform(params, offer_id)
+    response = request_has_offer(params)
+    return nil if response.nil?
 
-    # if (has_offer_id = response[:data]).nil?
-    #   logger.error "Response data was empty! (request query: #{query}"
-    #   return nil
-    # end
+    if response[:data].blank? || (data = response[:data][:Offer]).nil?
+      logger.error "Response data was empty!"
+      return nil
+    end
 
-    # offer = Trac::Offer.update offer_id, has_offer_id: has_offer_id
-    # logger.info "New offer saved in hasOffer: " + has_offer_id unless offer.nil?
+    offer = Trac::Offer.update(offer_id, has_offer_id: data[:id])
+    logger.info "New offer saved in hasOffer. hasOffer ID: #{offer.has_offer_id}" unless offer.nil?
   end
 
   private

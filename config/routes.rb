@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :categories, except: %i[new edit]
   resources :products, except: %i[new edit]
 
-  resources :advertisers, only: %i[create show]
+  resources :advertisers, only: :show
   resources :publishers, only: :show
 
   mount Sidekiq::Web => '/sidekiq'

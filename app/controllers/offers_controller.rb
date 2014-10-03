@@ -6,24 +6,14 @@ class OffersController < ApplicationController
     super
     return if @offer.nil?
 
-    rest_params = params.extract!(*%i[offer_name offer_description preview_url expires_on])
-    rest_params[:name] = rest_params.delete(:offer_name)
-    rest_params[:description] = rest_params.delete(:offer_description)
-    rest_params[:expiration_date] = rest_params.delete(:expires_on)
-
-    OfferCreator.perform_async rest_params
+    OfferCreator.perform_async params_for_rest_call, @offer.id
   end
 
   def update
     super
     return if @offer.nil?
 
-    rest_params = params.extract!(*%i[id offer_name offer_description preview_url expires_on])
-    rest_params[:name] = rest_params.delete(:offer_name)
-    rest_params[:description] = rest_params.delete(:offer_description)
-    rest_params[:expiration_date] = rest_params.delete(:expires_on)
-
-    OfferModifier.perform_async rest_params
+    OfferModifier.perform_async params_for_rest_call, @offer.has_offer_id
   end
 
   private
@@ -43,5 +33,14 @@ class OffersController < ApplicationController
   def offer_params
     params[:advertiser_id] = current_advertiser.id
     params.permit *%i[advertiser_id offer_name offer_description preview_url landing_url product_id expires_on]
+  end
+
+  def params_for_rest_call
+    { advertiser_id: 2, # TODO put this to environment or somewhere else
+      name: params[:offer_name],
+      description: params[:offer_description],
+      offer_url: params[:landing_url],
+      preview_url: params[:preview_url],
+      expiration_date: params[:expires_on] }.compact
   end
 end

@@ -10,19 +10,16 @@ class JobBase
 
   protected
 
-  def request_has_offer(params, additional = nil)
+  def request_has_offer(params, additional_params = nil)
     query = URI.unescape(params.to_query "data")
-    query << additional.to_query(nil) unless additional.nil?
-    request_url = base_url + "NetworkToken=#{network_token}&NetworkId=#{network_id}&#{query}"
+    query << "&#{additional_params.to_query(nil)}" unless additional_params.nil?
+    request_url = base_url + "NetworkToken=#{network_token}&NetworkId=#{network_id}&#{query}&return_object=true"
 
     logger.info "Calling... #{request_url}"
 
     response = request_get(request_url)
+    logger.info "Response: #{response.body}"
     process_response(response)
-  end
-
-  def log_response(response)
-    logger.error response[:errors].map { |error| error[:publicMessage] }.join("\n")
   end
 
   def network_token
@@ -31,7 +28,7 @@ class JobBase
   end
 
   def network_id
-    ""
+    "casualsteps"
   end
 
   def base_url
@@ -67,7 +64,11 @@ class JobBase
       return nil
     end
 
-    data
+    data[:response]
+  end
+
+  def log_response(response)
+    logger.error response[:errors].map { |error| error[:publicMessage] }.join("\n")
   end
 
   # send GET request without timeout.. (Calling hasOffer api takes at least 60 secs.)

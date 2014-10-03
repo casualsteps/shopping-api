@@ -1,8 +1,8 @@
 require "uri"
 
 class OfferModifier < JobBase
-  def perform(params)
-    data = request_has_offer(params, { id: params.delete(:id) })
+  def perform(params, has_offer_id)
+    data = request_has_offer(params, id: has_offer_id)
     # return nil if data.nil?
   end
 
